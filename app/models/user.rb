@@ -27,6 +27,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def email_required?
+    super && provider.blank?
+  end
 
   def password_required?
     super && provider.blank?
@@ -41,7 +44,6 @@ class User < ActiveRecord::Base
   end
 
   def bypass_email_validation_for_oauth_users
-    binding.pry
     skip_confirmation! if email.blank? && provider.present?
   end
 
