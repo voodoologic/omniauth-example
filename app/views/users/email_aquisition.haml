@@ -1,0 +1,12 @@
+%h1
+  Email Aquisition
+%p
+  You email is critical for this application to run.
+%form{ name: "email", action: "email_aquisition", method: "POST"}
+  %fieldset
+    %ol
+      %label email:
+      %input{type: "text"}
+
+    %input{type: "submit", value: "send", class: "button"}
+

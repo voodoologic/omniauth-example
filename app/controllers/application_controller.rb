@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
      user_path(current_user)
   end
 
+  def aquire_email_from_user #call this as a before filter to get email from oauth user.
+    redirect_to :controller => :users, :action => :email_aquisition
+  end
+
 end

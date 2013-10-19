@@ -7,4 +7,8 @@ class UsersController < ApplicationController
   def set_current_user
     @current_user = current_user
   end
+
+  def email_aquisition
+
+  end
 end
