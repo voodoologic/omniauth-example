@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :omniauthable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+
 
   ROLE = {:admin => 1, :seller => 2, :buyer => 3}
 
@@ -11,6 +12,7 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.uid = auth.uid
       user.username = auth.info.nickname
+      user.bypass_email_validation_for_oauth_users
     end
   end
 
@@ -36,6 +38,11 @@ class User < ActiveRecord::Base
     else
       super
     end
+  end
+
+  def bypass_email_validation_for_oauth_users
+    binding.pry
+    skip_confirmation! if email.blank? && provider.present?
   end
 
 end
