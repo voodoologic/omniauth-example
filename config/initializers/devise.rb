@@ -232,8 +232,6 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :twitter, CONFIG[Rails.env.to_sym]["TWITTER"]["KEY"], CONFIG[Rails.env.to_sym]["TWITTER"]["SECRET"]
-  config.omniauth :gplus, CONFIG[Rails.env.to_sym]["GPLUS"]["KEY"], CONFIG[Rails.env.to_sym]["GPLUS"]["SECRET"]
-  config.omniauth :facebook, CONFIG[Rails.env.to_sym]["FACEBOOK"]["KEY"], CONFIG[Rails.env.to_sym]["FACEBOOK"]["SECRET"]
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
