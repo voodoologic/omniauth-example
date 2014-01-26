@@ -12,6 +12,8 @@ gem 'omniauth-gplus'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 
+gem 'twitter'
+
 gem 'devise'
 
 gem 'haml'
