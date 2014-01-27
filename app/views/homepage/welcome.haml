@@ -13,7 +13,7 @@
     %h1 IPA Tracker
     %p.lead Just sign in with your twitter account, and IPATracker.com will record all tweets with hashtag #IPA
     %p
-      %a.btn.btn-lg.btn-success{href: "#", role: "button"} Sign in with your twitter
+      =link_to "Sign in with Twitter", user_omniauth_authorize_path(:twitter), class: "btn btn-lg btn-success", role: "button"
   .row.marketing
     .col-lg-6
       %h4 Subheading
