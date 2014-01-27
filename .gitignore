@@ -37,3 +37,4 @@ pickle-email-*.html
 .ruby-gemset
 .ruby-gemsets
 .ruby-version
+config/application.yml
