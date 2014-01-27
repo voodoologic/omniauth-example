@@ -1,5 +1,19 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+def twitter_credentials
+  key_secret = OpenStruct.new
+  if ENV['twitter_key'].present?
+    key_secret.key =  ENV['TWITTER_KEY']
+  elsif CONFIG[Rails.env.to_sym]["TWITTER"]["KEY"].present?
+    key_secret.key =  CONFIG[Rails.env.to_sym]["TWITTER"]["KEY"]
+  end
+  if ENV['twitter_secret'].present?
+    key_secret.secret =  ENV['TWITTER_SECRET']
+  elsif CONFIG[Rails.env.to_sym]["TWITTER"]["SECRET"].present?
+    key_secret.secret =  CONFIG[Rails.env.to_sym]["TWITTER"]["SECRET"]
+  end
+  key_secret
+end
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -231,8 +245,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :twitter, CONFIG[Rails.env.to_sym]["TWITTER"]["KEY"], CONFIG[Rails.env.to_sym]["TWITTER"]["SECRET"]
-
+  config.omniauth :twitter, twitter_credentials.key, twitter_credentials.secret
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
@@ -256,3 +269,4 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
+
