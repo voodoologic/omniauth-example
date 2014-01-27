@@ -2,12 +2,12 @@
 # Many of these configuration options can be set straight in your model.
 def twitter_credentials
   key_secret = OpenStruct.new
-  if ENV['twitter_key'].present?
+  if ENV['TWITTER_KEY'].present?
     key_secret.key =  ENV['TWITTER_KEY']
   elsif CONFIG[Rails.env.to_sym]["TWITTER"]["KEY"].present?
     key_secret.key =  CONFIG[Rails.env.to_sym]["TWITTER"]["KEY"]
   end
-  if ENV['twitter_secret'].present?
+  if ENV['TWITTER_SECRET'].present?
     key_secret.secret =  ENV['TWITTER_SECRET']
   elsif CONFIG[Rails.env.to_sym]["TWITTER"]["SECRET"].present?
     key_secret.secret =  CONFIG[Rails.env.to_sym]["TWITTER"]["SECRET"]
@@ -15,7 +15,6 @@ def twitter_credentials
   key_secret
 end
 
-puts twitter_credentials.inspect
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
