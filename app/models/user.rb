@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
       user.uid = auth.uid
       user.username = auth.info.nickname
       user.bypass_email_validation_for_oauth_users
+      user.twitter_oauth_token = auth.credentials.token
+      user.twitter_oauth_secret = auth.credentials.secret
     end
   end
 
