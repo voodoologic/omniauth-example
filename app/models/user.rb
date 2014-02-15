@@ -23,8 +23,8 @@ class User < ActiveRecord::Base
     Twitter::REST::Client.new do |config|
       config.access_token         = ENV['TWITTER_SECRET']
       config.access_token_secret  = ENV['TWITTER_KEY']
-      config.oauth_token          = twitter_oauth_token
-      config.oauth_token_secret   = twitter_oauth_secret
+      config.consumer_token       = twitter_oauth_token
+      config.consumer_secret      = twitter_oauth_secret
     end
   end
   def self.new_with_session(params, session)
