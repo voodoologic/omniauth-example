@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   ROLE = { :user => 2, :admin => 3}
 
   def self.from_omniauth(auth)
-    user = where(auth.slice(:provider, :uid)).first_or_create do |user|
+    where(auth.slice(:provider, :uid)).first_or_create do |user|
       user.provider = "twitter"
       user.uid = auth.uid
       user.username = auth.info.nickname
@@ -17,11 +17,10 @@ class User < ActiveRecord::Base
       user.twitter_oauth_token = auth.credentials.token
       user.twitter_oauth_secret = auth.credentials.secret
     end
-    user.save unless user.new_record? 
   end
 
   def twitter
-    Twitter::Client.new(
+    Twitter::REST::Client.new(
       :oauth_token => twitter_oauth_token,
       :oauth_token_secret => twitter_oauth_secret
     )
