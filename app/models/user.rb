@@ -9,20 +9,32 @@ class User < ActiveRecord::Base
   ROLE = { :user => 2, :admin => 3}
 
   def self.from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_create do |user|
+    user = where(auth.slice('provider', 'uid')).first || create_from_omniauth(auth)
+    user.provider = "twitter"
+    user.twitter_oauth_token = auth.credentials.token
+    user.twitter_oauth_secret = auth.credentials.secret
+    user.uid = auth.uid
+    user.username = auth.info.nickname
+    user.bypass_email_validation_for_oauth_users
+    user.save!
+    user
+  end
+
+  def create_from_omniauth(auth)
+    create! do |user|
       user.provider = "twitter"
+      user.twitter_oauth_token = auth.credentials.token
+      user.twitter_oauth_secret = auth.credentials.secret
       user.uid = auth.uid
       user.username = auth.info.nickname
       user.bypass_email_validation_for_oauth_users
-      user.twitter_oauth_token = auth.credentials.token
-      user.twitter_oauth_secret = auth.credentials.secret
     end
   end
 
   def twitter
     Twitter::REST::Client.new do |config|
-      config.access_token         = ENV['TWITTER_SECRET']
-      config.access_token_secret  = ENV['TWITTER_KEY']
+      # config.access_token         = ENV['TWITTER_SECRET']
+      # config.access_token_secret  = ENV['TWITTER_KEY']
       config.consumer_key         = twitter_oauth_token
       config.consumer_secret      = twitter_oauth_secret
     end
