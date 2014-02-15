@@ -1,7 +1,8 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def all
-    logger.debug request.env["omniauth.auth"]
     user = User.from_omniauth request.env["omniauth.auth"]
+    logger.debug "user: " 
+    logger.debug user.inspect
     if user.persisted?
       sign_in_and_redirect user, notice: "Signed in!"
     else
