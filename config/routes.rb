@@ -1,4 +1,5 @@
 Omniauth::Application.routes.draw do
+  get "tweets/show"
   devise_for :users, path_name: {sign_in: "login", sign_out: "logout"},
                     controllers: {omniauth_callbacks: "omniauth_callbacks"}
   # The priority is based upon order of creation: first created -> highest priority.

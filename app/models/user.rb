@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
+  has_many :tweets
+
   ROLE = { :user => 2, :admin => 3}
 
   def self.from_omniauth(auth)
@@ -17,6 +19,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def twitter
+    Twitter::Client.new(
+      :oauth_token => twitter_oauth_token,
+      :oauth_token_secret => twitter_oauth_secret
+    )
+  end
   def self.new_with_session(params, session)
     if session['devise.user_attributes']
       new(session['devise.user_attributes']) do |user|
