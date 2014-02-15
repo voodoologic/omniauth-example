@@ -9,25 +9,15 @@ class User < ActiveRecord::Base
   ROLE = { :user => 2, :admin => 3}
 
   def self.from_omniauth(auth)
-    logger.debug "autho.uid: " * 5
-    logger.debug auth
-    where(auth.slice(:provider, :uid)).first_or_create do |user|
+    user = where(auth.slice(:provider, :uid)).first_or_create do |user|
       user.provider = "twitter"
-      logger.debug "autho.uid: "
-      logger.debug auth.uid
       user.uid = auth.uid
-      logger.debug "autho.info: "
-      logger.debug auth.info
       user.username = auth.info.nickname
       user.bypass_email_validation_for_oauth_users
-      logger.debug "autho.credentials.token: "
-      logger.debug auth.credentials.token
       user.twitter_oauth_token = auth.credentials.token
-      logger.debug "autho.credentials.secret: "
-      logger.debug auth.credentials.secret
       user.twitter_oauth_secret = auth.credentials.secret
-      save
     end
+    user.save unless user.new_record? 
   end
 
   def twitter
