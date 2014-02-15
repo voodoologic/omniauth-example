@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   ROLE = { :user => 2, :admin => 3}
 
   def self.from_omniauth(auth)
+    logger.debug "autho.uid: " * 5
+    logger.debug auth
     where(auth.slice(:provider, :uid)).first_or_create do |user|
       user.provider = "twitter"
       logger.debug "autho.uid: "
