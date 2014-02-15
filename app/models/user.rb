@@ -20,10 +20,12 @@ class User < ActiveRecord::Base
   end
 
   def twitter
-    Twitter::REST::Client.new(
-      :oauth_token => twitter_oauth_token,
-      :oauth_token_secret => twitter_oauth_secret
-    )
+    Twitter::REST::Client.new do |config|
+      config.access_token         = ENV['TWITTER_SECRET']
+      config.access_token_secret  = ENV['TWITTER_KEY']
+      config.oauth_token          = twitter_oauth_token
+      config.oauth_token_secret   = twitter_oauth_secret
+    end
   end
   def self.new_with_session(params, session)
     if session['devise.user_attributes']
