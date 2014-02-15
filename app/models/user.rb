@@ -9,9 +9,13 @@ class User < ActiveRecord::Base
   ROLE = { :user => 2, :admin => 3}
 
   def self.from_omniauth(auth)
-    logger.debug auth.inspect
+    logger "*" * 88
+    logger.debug auth.credentials
+    logger "*" * 88
+    logger.debug auth.info
+    logger "*" * 88
     where(auth.slice(:provider, :uid)).first_or_create do |user|
-      user.provider = auth.provider
+      user.provider = "twitter"
       user.uid = auth.uid
       user.username = auth.info.nickname
       user.bypass_email_validation_for_oauth_users
