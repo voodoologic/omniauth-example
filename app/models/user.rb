@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
       logger.debug "autho.credentials.secret: "
       logger.debug auth.credentials.secret
       user.twitter_oauth_secret = auth.credentials.secret
+      save
     end
   end
 
