@@ -3,7 +3,7 @@
 
 %h1= @current_user.username
 
-- @tweets each do |t|
+- @tweets.each do |t|
   %img{:src => t.profile_image_url}
   %p= t.text
   %p= t.source
