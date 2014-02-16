@@ -5,6 +5,7 @@ class UsersController < ApplicationController
     @tweets = @current_user.twitter.user_timeline
     rescue => e
       logger.debug e
+      @tweet = []
     end
   end
 
