@@ -4,6 +4,6 @@
 %h1= @current_user.username
 
 - @tweets.each do |t|
-  %img{:src => t.profile_image_url}
+  %img{:src => t.user.profile_image_url}
   %p= t.text
   %p= t.source
