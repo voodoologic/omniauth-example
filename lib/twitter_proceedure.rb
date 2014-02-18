@@ -49,7 +49,7 @@ class TwitterProceedure < Twitter::REST::Client
     num_attempts = 0
     begin
       num_attempts += 1
-      yeild
+      yield
     rescue Twitter::Error::TooManyRequests => error
       if num_attempts <= MAX_ATTEMPTS
         # NOTE: Your process could go to sleep for up to 15 minutes but if you
