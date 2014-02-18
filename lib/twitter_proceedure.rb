@@ -1,8 +1,8 @@
 class TwitterProceedure 
-  include Twitter
+  include Twitter::REST::Client
 
   MAX_EVENTS = 3
-  num_attempts = 0
+  # num_attempts = 0
 
   def initialize(user)
     Twitter::REST::Client.new do |config|
