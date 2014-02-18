@@ -2,7 +2,7 @@ class TwitterProceedure < Twitter::REST::Client
   attr_accessor :acces_token, :access_token_secret, :consumer_key, :consumer_secret
 
   MAX_EVENTS = 3
-  # num_attempts = 0
+  num_attempts = 0
 
   def initialize(user)
       @access_token         = user.twitter_oauth_token
@@ -27,19 +27,38 @@ class TwitterProceedure < Twitter::REST::Client
 
   def save_user_tweets
 
-     collect_user_tweets.each do |t|
+    user_tweet = rate_limit_safe do
+      collect_user_tweets
+    end
+    user_tweet.each do |t|
       Tweet.where(:uid => t.id).first_or_create do |tweet|
-        tweet.uid             = t.id
-        tweet.user_name       = t.user.username
-        tweet.screen_name     = t.user.username
-        tweet.profile_image   = t.user.profile_image_url
-        tweet.posted_at       = t.created_at
-        tweet.user_id         = t.user.id
-        tweet.geo_lat         = t.geo.latitude
-        tweet.geo_lon         = t.geo.longitude
-        tweet.details         = t['attrs'].to_json
+          tweet.uid             = t.id
+          tweet.user_name       = t.user.username
+          tweet.screen_name     = t.user.username
+          tweet.profile_image   = t.user.profile_image_url
+          tweet.posted_at       = t.created_at
+          tweet.user_id         = t.user.id
+          tweet.geo_lat         = t.geo.latitude
+          tweet.geo_lon         = t.geo.longitude
+          tweet.details         = t['attrs'].to_json
       end
     end
+  end
 
+  def rate_limit_safe(&block)
+    num_attempts = 0
+    begin
+      num_attempts += 1
+      yeild
+    rescue Twitter::Error::TooManyRequests => error
+      if num_attempts <= MAX_ATTEMPTS
+        # NOTE: Your process could go to sleep for up to 15 minutes but if you
+        # retry any sooner, it will almost certainly fail with the same exception.
+        sleep error.rate_limit.reset_in
+        retry
+      else
+        raise
+      end
+    end
   end
 end
