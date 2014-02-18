@@ -32,13 +32,9 @@ class User < ActiveRecord::Base
   end
 
   def twitter
-    Twitter::REST::Client.new do |config|
-      config.access_token         = twitter_oauth_token
-      config.access_token_secret  = twitter_oauth_secret
-      config.consumer_key         = ENV['TWITTER_KEY'] 
-      config.consumer_secret      = ENV['TWITTER_SECRET'] 
-    end
+    TwitterProceedure.new(self)
   end
+
   def self.new_with_session(params, session)
     if session['devise.user_attributes']
       new(session['devise.user_attributes']) do |user|
