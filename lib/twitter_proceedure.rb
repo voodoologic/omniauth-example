@@ -1,15 +1,14 @@
 class TwitterProceedure < Twitter::REST::Client
+  attr_accessor :acces_token, :access_token_secret, :consumer_key, :consumer_secret
 
   MAX_EVENTS = 3
   # num_attempts = 0
 
   def initialize(user)
-    Twitter::REST::Client.new do |config|
-      config.access_token         = user.twitter_oauth_token
-      config.access_token_secret  = user.twitter_oauth_secret
-      config.consumer_key         = ENV['TWITTER_KEY'] 
-      config.consumer_secret      = ENV['TWITTER_SECRET'] 
-    end
+      @access_token         = user.twitter_oauth_token
+      @access_token_secret  = user.twitter_oauth_secret
+      @consumer_key         = ENV['TWITTER_KEY'] 
+      @consumer_secret      = ENV['TWITTER_SECRET'] 
   end
 
   def collect_user_tweets
