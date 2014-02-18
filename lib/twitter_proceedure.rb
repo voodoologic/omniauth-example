@@ -1,5 +1,5 @@
 class TwitterProceedure 
-  incldue Twitter
+  include Twitter
 
   MAX_EVENTS = 3
   num_attempts = 0
