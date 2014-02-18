@@ -35,6 +35,9 @@ class TwitterProceedure < Twitter::REST::Client
         tweet.profile_image   = t.user.profile_image_url
         tweet.posted_at       = t.created_at
         tweet.user_id         = t.user.id
+        tweet.geo_lat         = t.geo.latitude
+        tweet.geo_lon         = t.geo.longitude
+        tweet.details         = t['attrs'].to_json
       end
     end
 
