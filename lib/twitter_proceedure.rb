@@ -1,4 +1,5 @@
-class TwitterProceedure < DelgateClass(Twitter::REST::Client)
+class TwitterProceedure 
+  incldue Twitter
 
   MAX_EVENTS = 3
   num_attempts = 0
