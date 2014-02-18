@@ -27,7 +27,7 @@ class TwitterProceedure < Twitter::REST::Client
 
   def save_user_tweets
 
-     collect_users_tweets.each do |t|
+     collect_user_tweets.each do |t|
       Tweet.where(:uid => t.id).first_or_create do |tweet|
         tweet.uid             = t.id
         tweet.user_name       = t.user.username
