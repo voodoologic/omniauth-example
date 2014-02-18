@@ -1,5 +1,4 @@
-class TwitterProceedure 
-  include Twitter
+class TwitterProceedure < Twitter::REST::Client
 
   MAX_EVENTS = 3
   # num_attempts = 0
