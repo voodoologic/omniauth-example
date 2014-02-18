@@ -1,7 +1,7 @@
 class TwitterProceedure < Twitter::REST::Client
   attr_accessor :acces_token, :access_token_secret, :consumer_key, :consumer_secret
 
-  MAX_EVENTS = 3
+  MAX_ATTEMPTS = 3
   num_attempts = 0
 
   def initialize(user)
