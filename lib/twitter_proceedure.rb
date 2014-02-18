@@ -1,4 +1,4 @@
-class TwitterProceedure
+class TwitterProceedure < Twitter
 
   MAX_EVENTS = 3
   num_attempts = 0
