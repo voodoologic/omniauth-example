@@ -38,15 +38,14 @@ class TwitterProceedure < Twitter::REST::Client
   end
 
   def get_all_tweets_from_tweet_id(tweet_id)
-    rate_limit_safe do
-
-    end
   end
 
   def collect_with_max_id(collection=[], max_id=nil, &block)
-    response = yield max_id
-    collection += response
-    response.empty? ? collection.flatten : collect_with_max_id(collection, response.last.id - 1, &block)
+    rate_limit_safe do
+      response = yield max_id
+      collection += response
+      response.empty? ? collection.flatten : collect_with_max_id(collection, response.last.id - 1, &block)
+    end
   end
 
   def save_user_tweets(user_tweets= nil)
