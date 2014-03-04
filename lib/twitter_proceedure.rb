@@ -69,7 +69,6 @@ class TwitterProceedure < Twitter::REST::Client
         Tweet.where(:uid => t.id).first_or_create do |tweet|
           tweet.uid             = t.id
           tweet.user_name       = t.user.username
-          tweet.screen_name     = t.user.username
           tweet.profile_image   = t.user.profile_image_url
           tweet.posted_at       = t.created_at
           tweet.user_id         = t.user.id
