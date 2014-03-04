@@ -69,12 +69,12 @@ class TwitterProceedure < Twitter::REST::Client
         Tweet.where(:uid => t.id).first_or_create do |tweet|
           tweet.uid             = t.id
           tweet.user_name       = t.user.username
-          tweet.profile_image   = t.user.profile_image_url
+          tweet.profile_image   = t.user.profile_image_url.to_s
           tweet.posted_at       = t.created_at
           tweet.user_id         = t.user.id
           tweet.geo_lat         = t.geo.latitude
           tweet.geo_lon         = t.geo.longitude
-          tweet.details         = t['attrs'].to_json
+          tweet.details         = t['attrs'].to_s
         end
       end
     end
