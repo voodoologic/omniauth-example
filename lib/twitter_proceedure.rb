@@ -29,7 +29,7 @@ class TwitterProceedure < Twitter::REST::Client
     collect_with_max_id do |max_id|
       options = {:count => 200, :include_rts => true}
       options[:max_id] = max_id unless max_id.nil?
-      user_timeline(user, options)
+      save_user_tweets(user_timeline(user, options))
     end
   end
 
@@ -55,7 +55,6 @@ class TwitterProceedure < Twitter::REST::Client
         Tweet.where(:uid => t.id.to_s).first_or_create do |tweet|
             tweet.uid             = t.id
             tweet.user_name       = t.user.username
-            tweet.screen_name     = t.user.username
             tweet.profile_image   = t.user.profile_image_url
             tweet.posted_at       = t.created_at
             tweet.user_id         = t.user.id
