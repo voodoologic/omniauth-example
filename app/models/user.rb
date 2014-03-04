@@ -47,7 +47,6 @@ class User < ActiveRecord::Base
   end
 
   def get_latest_tweets!
-    twitter.
   end
 
   def email_required?
