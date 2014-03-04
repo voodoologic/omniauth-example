@@ -88,7 +88,7 @@ class TwitterProceedure < Twitter::REST::Client
       if num_attempts <= MAX_ATTEMPTS
         # NOTE: Your process could go to sleep for up to 15 minutes but if you
         # retry any sooner, it will almost certainly fail with the same exception.
-        puts error.inspect
+        logger.debug error.inspect
         sleep error.rate_limit.reset_in
         retry
       else
