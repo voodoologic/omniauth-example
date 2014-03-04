@@ -67,7 +67,7 @@ class TwitterProceedure < Twitter::REST::Client
     else
       self.user_timeline.each do |t|
         Tweet.where(:uid => t.id).first_or_create do |tweet|
-          tweet.uid             = t.id
+          tweet.uid             = t.id.to_s
           tweet.user_name       = t.user.username
           tweet.profile_image   = t.user.profile_image_url.to_s
           tweet.posted_at       = t.created_at
