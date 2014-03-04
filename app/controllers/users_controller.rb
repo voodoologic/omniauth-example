@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   before_filter :set_current_user
   def show
     begin 
-      @tweets = @current_user.twitter.user_timeline
+      @current_user.twitter.save_user_tweets
+      @tweets = @current_user.tweets
     rescue => e
       logger.debug e
       @tweets = []

@@ -1,5 +1,19 @@
 class TwitterProceedure < Twitter::REST::Client
   attr_accessor :acces_token, :access_token_secret, :consumer_key, :consumer_secret
+  # goal: 
+  # recieve tweets on page load
+  # do daily updates -- rake task
+  # create tabs for meta data
+  # put in location tab for maps (open source map)
+  # graph of data 
+  # personal voting
+  # user voting
+  # meta data about beer.
+  # hyperlink to beer website. currated or top google search 
+  # how do I store all this data. s3?
+  # api for custom requests
+  # 
+  #
 
   MAX_ATTEMPTS = 3
   num_attempts = 0
@@ -11,11 +25,21 @@ class TwitterProceedure < Twitter::REST::Client
       @consumer_secret      = ENV['TWITTER_SECRET'] 
   end
 
-  def collect_user_tweets
+  def collect_all_user_tweets
     collect_with_max_id do |max_id|
       options = {:count => 200, :include_rts => true}
       options[:max_id] = max_id unless max_id.nil?
       user_timeline(user, options)
+    end
+  end
+
+  def get_daily_user_tweets
+
+  end
+
+  def get_all_tweets_from_tweet_id(tweet_id)
+    rate_limit_safe do
+
     end
   end
 
@@ -25,13 +49,24 @@ class TwitterProceedure < Twitter::REST::Client
     response.empty? ? collection.flatten : collect_with_max_id(collection, response.last.id - 1, &block)
   end
 
-  def save_user_tweets
-
-    user_tweet = rate_limit_safe do
-      collect_user_tweets
-    end
-    user_tweet.each do |t|
-      Tweet.where(:uid => t.id).first_or_create do |tweet|
+  def save_user_tweets(user_tweets= nil)
+    if user_tweets
+      user_tweets.each do |t|
+        Tweet.where(:uid => t.id).first_or_create do |tweet|
+            tweet.uid             = t.id
+            tweet.user_name       = t.user.username
+            tweet.screen_name     = t.user.username
+            tweet.profile_image   = t.user.profile_image_url
+            tweet.posted_at       = t.created_at
+            tweet.user_id         = t.user.id
+            tweet.geo_lat         = t.geo.latitude
+            tweet.geo_lon         = t.geo.longitude
+            tweet.details         = t['attrs'].to_json
+        end
+      end
+    else
+      self.user_timeline.each do |t|
+        Tweet.where(:uid => t.id).first_or_create do |tweet|
           tweet.uid             = t.id
           tweet.user_name       = t.user.username
           tweet.screen_name     = t.user.username
@@ -41,6 +76,7 @@ class TwitterProceedure < Twitter::REST::Client
           tweet.geo_lat         = t.geo.latitude
           tweet.geo_lon         = t.geo.longitude
           tweet.details         = t['attrs'].to_json
+        end
       end
     end
   end

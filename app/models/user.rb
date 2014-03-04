@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def get_latest_tweets!
+    twitter.
+  end
+
   def email_required?
     super && provider.blank?
   end
