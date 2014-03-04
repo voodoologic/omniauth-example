@@ -52,7 +52,7 @@ class TwitterProceedure < Twitter::REST::Client
   def save_user_tweets(user_tweets= nil)
     if user_tweets
       user_tweets.each do |t|
-        Tweet.where(:uid => t.id).first_or_create do |tweet|
+        Tweet.where(:uid => t.id.to_s).first_or_create do |tweet|
             tweet.uid             = t.id
             tweet.user_name       = t.user.username
             tweet.screen_name     = t.user.username
@@ -66,7 +66,7 @@ class TwitterProceedure < Twitter::REST::Client
       end
     else
       self.user_timeline.each do |t|
-        Tweet.where(:uid => t.id).first_or_create do |tweet|
+        Tweet.where(:uid => t.id.to_s).first_or_create do |tweet|
           tweet.uid             = t.id.to_s
           tweet.user_name       = t.user.username
           tweet.profile_image   = t.user.profile_image_url.to_s
